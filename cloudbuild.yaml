@@ -1,0 +1,11 @@
+steps:
+- id: 'trigger-all-children'
+  name: 'ubuntu'
+  entrypoint: 'bash'
+  args: ['./trigger-children.sh']
+  waitFor: ['-'] 
+
+- id: 'parent-build'
+  name: 'ubuntu'
+  args: ['echo', 'Starting parent build tasks in parallel...']
+  waitFor: ['-']
