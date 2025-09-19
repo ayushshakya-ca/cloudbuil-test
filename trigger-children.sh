@@ -1,17 +1,11 @@
 #!/bin/bash
 
-# Exit immediately if a command exits with a non-zero status.
 set -e
-
-# Find all child pipeline YAML files.
-CHILD_PIPELINES=$(find child-pipelines -name "child-*.yaml")
-
-# Loop through each child pipeline file and trigger a build.
+CHILD_PIPELINES=child-parent
 for CHILD_CONFIG in $CHILD_PIPELINES; do
   echo "Triggering child build for configuration: $CHILD_CONFIG"
 
-  gcloud builds submit \
-    --config="${CHILD_CONFIG}" \
-    --no-source \
-    --async
+  gcloud builds triggers run $CHILD_CONFIG \
+  --branch=main \
+  --project=internal-sandbox-446612
 done
